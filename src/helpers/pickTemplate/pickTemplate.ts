@@ -4,7 +4,7 @@ const pickTemplate = async (
 	workspacePath: string,
 ): Promise<vscode.Uri | undefined> => {
 	const templateDirs = await vscode.workspace.fs.readDirectory(
-		vscode.Uri.joinPath(vscode.Uri.parse(workspacePath), '.templates'),
+		vscode.Uri.joinPath(vscode.Uri.file(workspacePath), '.templates'),
 	);
 
 	const templatesItems: vscode.QuickPickItem[] = templateDirs.map(

@@ -6,11 +6,11 @@ const copyDefaultTemplates = async (
 	workspaceRoot: string,
 ) => {
 	const extensionUri = vscode.Uri.joinPath(
-		vscode.Uri.parse(extensionPath),
+		vscode.Uri.file(extensionPath),
 		'.templates',
 	);
 	const workspaceUri = vscode.Uri.joinPath(
-		vscode.Uri.parse(workspaceRoot),
+		vscode.Uri.file(workspaceRoot),
 		'.templates',
 	);
 

@@ -44,14 +44,14 @@ const listTemplateVariables = async (templateFolder?: Uri) => {
 					contentOfAllFiles += file.toString();
 				}
 
+				const templateVariables: string[] = [];
+
 				const matches = /{{{?[a-zA-Z]*}?}}/.exec(contentOfAllFiles);
 
-				console.log(matches?.length);
-
 				if (matches) {
-					const templateVariables = matches.map((match) => {
-						return match.toString();
-					});
+					for (const match of matches) {
+						templateVariables.push(match);
+					}
 
 					resolve({
 						variables: templateVariables,
@@ -59,7 +59,7 @@ const listTemplateVariables = async (templateFolder?: Uri) => {
 					});
 				} else {
 					resolve({
-						variables: [],
+						variables: templateVariables,
 						error: new Error('No variables found in template files'),
 					});
 				}

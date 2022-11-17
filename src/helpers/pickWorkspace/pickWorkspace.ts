@@ -1,37 +1,39 @@
 import * as vscode from 'vscode';
 import type { QuickPickItem } from 'vscode';
 
-const pickWorkspace = async (): Promise<string | Error> => {
-	return new Promise((resolve, reject) => {
+const pickWorkspace = async (): string | Error => {
+
 		const workspaces = vscode.workspace.workspaceFolders;
 
 		if (!workspaces) {
-			reject(new Error('No workspace found'));
+			return new Error('No workspace found');
 		}
 
 		if (workspaces) {
 			if (workspaces.length === 1) {
-				resolve(workspaces[0].uri.toString());
+				return workspaces[0].uri.fsPath;
 			}
 
 			const workspaceUris: QuickPickItem[] = workspaces.map((workspace) => {
 				const quickPickItem: QuickPickItem = {
 					label: workspace.name,
-					detail: workspace.uri.toString(),
+					detail: workspace.uri.fsPath,
 				};
 
 				return quickPickItem;
 			});
 
-			void vscode.window
+			await vscode.window
 				.showQuickPick(workspaceUris, {
 					placeHolder: 'Select a workspace',
 				})
 				.then((workspace) => {
-					if (workspace) {
-						resolve(workspace.detail!);
+
+					
+					if (workspace?.detail) {
+						return workspace.detail
 					} else {
-						reject(new Error('No workspace selected'));
+						return new Error('No workspace selected');
 					}
 				});
 		}
