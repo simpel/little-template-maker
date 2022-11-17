@@ -1,40 +1,26 @@
 import * as vscode from 'vscode';
 
-const pickTemplate = async (
-	workspacePath: string,
-): Promise<vscode.Uri | undefined> => {
+const pickTemplate = async (workspace: vscode.WorkspaceFolder) => {
 	const templateDirs = await vscode.workspace.fs.readDirectory(
-		vscode.Uri.joinPath(vscode.Uri.file(workspacePath), '.templates'),
+		vscode.Uri.joinPath(workspace.uri, '.templates'),
 	);
 
-	const templatesItems: vscode.QuickPickItem[] = templateDirs.map(
+	const templatesList: vscode.QuickPickItem[] = templateDirs.map(
 		(templateDir) => {
 			const item: vscode.QuickPickItem = {
 				label: templateDir[0],
-				description:
-					templateDir[1] === vscode.FileType.Directory ? 'Directory' : 'File',
+				detail: vscode.Uri.joinPath(workspace.uri, '.templates', templateDir[0])
+					.fsPath,
 			};
 
 			return item;
 		},
 	);
 
-	return vscode.window
-		.showQuickPick(templatesItems, {
-			canPickMany: false,
-			title: 'Select a template',
-		})
-		.then(async (template) => {
-			if (template?.label) {
-				return vscode.Uri.joinPath(
-					vscode.Uri.parse(workspacePath),
-					'.templates',
-					template.label,
-				);
-			}
-
-			await vscode.window.showErrorMessage('No template selected');
-		});
+	return vscode.window.showQuickPick(templatesList, {
+		canPickMany: false,
+		title: 'Select a template',
+	});
 };
 
 export default pickTemplate;
