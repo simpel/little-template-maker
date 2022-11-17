@@ -62,7 +62,10 @@ module.exports = {
       selector: 'variable',
       types: ['boolean']
     }],
-    'max-params': ['warn', 6]
-    
+    'max-params': ['warn', 6],
+    'unicorn/filename-case': ['warn', {
+      case: 'pascalCase',
+      ignore: ['^use.*.ts$', '^runtime.*.ts$', '^.*.config.ts$', '^.*.styles.ts$', 'index.*.ts$']
+    }]
   }
 };

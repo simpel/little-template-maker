@@ -1,5 +1,5 @@
 {
-  "name": "component-templater",
+  "name": "simpel",
   "displayName": "component templater",
   "description": "",
   "version": "0.0.1",
@@ -10,15 +10,15 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:component-templater.createComponent"
+    "onCommand:simpel.applyTemplate"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "component-templater.createComponent",
-        "title": "Create Component",
-        "category": "templates"
+        "command": "simpel.applyTemplate",
+        "title": "Apply Template",
+        "category": "simpel"
       }
     ]
   },
@@ -31,6 +31,8 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@hediet/node-reload": "^0.7.3",
+    "@hediet/std": "^0.6.0",
     "@types/glob": "^8.0.0",
     "@types/node": "^18.11.9",
     "@types/vscode": "^1.73.0",
