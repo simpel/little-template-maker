@@ -1,3 +1,5 @@
+// Bhttps://stackoverflow.com/questions/56583365/async-and-recursive-directory-scan-for-file-listing-in-nodejs-and-expressjs
+
 import * as vscode from 'vscode';
 
 const ignoredDirectories = new Set([
@@ -7,70 +9,62 @@ const ignoredDirectories = new Set([
 	'.templates',
 ]);
 
-const getDirectories = async (workspace: vscode.Uri) => {
+const getDirectories = async (
+	workspace: vscode.Uri,
+): Promise<vscode.QuickPickItem[]> => {
+	const allDirectories: vscode.Uri[] = [];
+
 	const readDirectory = async (
 		directory: vscode.Uri,
 	): Promise<vscode.Uri[]> => {
-		const files = await vscode.workspace.fs
+		const directories = await vscode.workspace.fs
 			.readDirectory(directory)
 			.then((files) => {
-				return files;
+				const directories: vscode.Uri[] = [];
+
+				for (const file of files) {
+					const [fileName, fileType] = file;
+
+					if (
+						fileType === vscode.FileType.Directory &&
+						!ignoredDirectories.has(fileName)
+					) {
+						directories.push(vscode.Uri.joinPath(directory, fileName));
+					}
+				}
+
+				return directories;
 			});
 
-		const directories = [];
+		const promises = [];
 
-		for (const file of files) {
-			if (file[1] === vscode.FileType.Directory) {
-				directories.push(file[0]);
-			}
+		console.log('current directory', directory.path, directories.length);
+
+		for (const directory of directories) {
+			console.log('directory', directory.path);
+			promises.push(readDirectory(directory));
 		}
 
-		const childDirs = Promise.all(
-			directories.map(async (dir) => {
-				const isBanned = ignoredDirectories.has(dir);
-				if (isBanned) {
-					return dir;
-				}
+		if (promises.length === 0) {
+			allDirectories.push(directory);
+			return allDirectories;
+		}
 
-				const currentDirectory = vscode.Uri.joinPath(directory, dir);
-
-				const currentChildren = await vscode.workspace.fs
-					.readDirectory(currentDirectory)
-					.then((children) => {
-						const currentChildDirectories = [];
-
-						for (const file of children) {
-							if (file[1] === vscode.FileType.Directory) {
-								currentChildDirectories.push(file[0]);
-							}
-						}
-
-						return currentChildDirectories;
-					});
-
-				console.log('---------------------------');
-				console.log(currentDirectory.fsPath);
-				console.table(currentChildren);
-
-				if (currentChildren.length > 0) {
-					await readDirectory(currentDirectory);
-				}
-
-				return dir;
-			}),
-		).then((list) => {
-			console.log('list', list);
-
-			return list;
+		return Promise.all(promises).then((results) => {
+			console.log('results', results);
+			return results.flat();
 		});
-
-		return childDirs;
 	};
 
-	const returnedList = readDirectory(workspace);
-	console.log('returnedList', returnedList);
-
-	return returnedList;
+	const returnedList = await readDirectory(workspace).then((directories) => {
+		return directories;
+	});
+	return returnedList.map((directory) => {
+		return {
+			label: directory.path,
+			detail: directory.fsPath,
+		};
+	});
 };
 
 export default getDirectories;

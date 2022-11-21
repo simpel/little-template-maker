@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import assignVariables from './helpers/assignVariables/assignVariables';
 import fetchTemplateVariables from './helpers/getchTemplateVariables/fetchTemplateVariables';
 import getDirectories from './helpers/getDirectories/getDirectories';
-import pickDirectory from './helpers/pickDirectory/pickDirectory';
 import pickTemplate from './helpers/pickTemplate/pickTemplate';
 
 // This method is called when your extension is activated
@@ -31,20 +30,17 @@ export async function activate(context: vscode.ExtensionContext) {
 
 			const allDirs = await getDirectories(workspace.uri);
 
-			const directory: vscode.Uri | undefined = await pickDirectory().then(
-				(path) => {
-					if (path) {
-						return path;
-					}
+			const pickedDirectory = await vscode.window
+				.showQuickPick(allDirs, {
+					canPickMany: false,
+					matchOnDetail: true,
+					title: 'Select a directory',
+				})
+				.then((item) => {
+					return item;
+				});
 
-					void vscode.window.showErrorMessage(
-						`You selected/wrote an incorrect path`,
-					);
-					return undefined;
-				},
-			);
-
-			console.log('extension.ts directory', directory);
+			console.log('extension.ts directory', pickedDirectory);
 
 			const templateVariables = await fetchTemplateVariables(
 				pickedTemplate!,
