@@ -29,7 +29,6 @@ export async function activate(context: vscode.ExtensionContext) {
 			});
 
 			const allDirs = await getDirectories(workspace.uri);
-			console.log('extension.ts directory', allDirs);
 
 			const pickedDirectory = await vscode.window
 				.showQuickPick(allDirs, {
