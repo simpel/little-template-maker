@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
+
 import assignVariables from './helpers/assignVariables/assignVariables';
 import fetchTemplateVariables from './helpers/getchTemplateVariables/fetchTemplateVariables';
-import getDirectories from './helpers/getDirectories/getDirectories';
+import pickDirectory from './helpers/getDirectories/getDirectories';
 import pickTemplate from './helpers/pickTemplate/pickTemplate';
+import applyTemplate from './helpers/applyTemplate/applyTemplate';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -18,49 +20,69 @@ export async function activate(context: vscode.ExtensionContext) {
 				return;
 			}
 
-			const pickedTemplate: vscode.Uri | undefined = await pickTemplate(
-				workspace,
-			).then((path) => {
-				if (path?.detail) {
-					return vscode.Uri.parse(path.detail);
+			const pickedTemplate = await pickTemplate(workspace).then((response) => {
+				if (response instanceof Error) {
+					void vscode.window.showErrorMessage(response.message);
+					return;
 				}
 
-				void vscode.window.showErrorMessage("Couldn't find any templates");
+				return response;
 			});
 
-			const allDirs = await getDirectories(workspace.uri);
-
-			const pickedDirectory = await vscode.window
-				.showQuickPick(allDirs, {
-					canPickMany: false,
-					matchOnDetail: true,
-					title: 'Select a directory',
-				})
-				.then((item) => {
-					return item;
-				});
-
-			const templateVariables = await fetchTemplateVariables(
-				pickedTemplate!,
-			).then((variables) => {
-				if (variables) {
-					return variables;
-				}
-
-				void vscode.window.showErrorMessage("Couldn't find template variables");
-			});
-
-			if (!templateVariables) {
+			if (!pickedTemplate) {
 				return;
 			}
 
-			const assignedVariables = await assignVariables(templateVariables).then(
+			console.log('pickedURI', pickedTemplate);
+
+			const pickedDirectory = await pickDirectory(workspace.uri).then(
 				(response) => {
+					if (response instanceof Error) {
+						void vscode.window.showErrorMessage(response.message);
+						return;
+					}
+
 					return response;
 				},
 			);
 
-			console.log('assigned', assignedVariables);
+			if (!pickedDirectory) {
+				return;
+			}
+
+			const templateVariables = await fetchTemplateVariables(
+				pickedTemplate,
+			).then((response) => {
+				if (response instanceof Error) {
+					void vscode.window.showErrorMessage(response.message);
+					return;
+				}
+
+				return response;
+			});
+
+			let assignedVariables;
+			if (templateVariables) {
+				assignedVariables = await assignVariables(templateVariables).then(
+					(response) => {
+						console.log('assignVariables response', response);
+
+						if (response instanceof Error) {
+							void vscode.window.showErrorMessage(response.message);
+							return;
+						}
+
+						return response;
+					},
+				);
+			}
+
+			await applyTemplate(
+				workspace,
+				pickedTemplate,
+				pickedDirectory,
+				assignedVariables,
+			);
 		},
 	);
 

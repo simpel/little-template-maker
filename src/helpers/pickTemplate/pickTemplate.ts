@@ -17,10 +17,18 @@ const pickTemplate = async (workspace: vscode.WorkspaceFolder) => {
 		},
 	);
 
-	return vscode.window.showQuickPick(templatesList, {
-		canPickMany: false,
-		title: 'Select a template',
-	});
+	return vscode.window
+		.showQuickPick(templatesList, {
+			canPickMany: false,
+			title: 'Select a template',
+		})
+		.then((template) => {
+			if (template?.detail) {
+				return vscode.Uri.parse(template.detail);
+			}
+
+			return new Error('Please pick a template');
+		});
 };
 
 export default pickTemplate;

@@ -3,23 +3,18 @@ import * as vscode from 'vscode';
 import * as Handlebars from 'handlebars';
 
 const storeFile = async (
-	context: vscode.ExtensionContext,
-	componentTemplate: string,
-	templateReplacementToken: string,
-	destinationFolder: vscode.Uri,
-	fileName: string,
+	templateFile: vscode.Uri,
+	targetDirectory: vscode.Uri,
+	relativePath: string,
+	variables?: Record<string, string>,
 ) => {
-	const template = await vscode.workspace.fs.readFile(
-		vscode.Uri.joinPath(context.extensionUri, componentTemplate),
-	);
+	const template = await vscode.workspace.fs.readFile(templateFile);
 
 	const convertComponent = Handlebars.compile(template.toString());
-	const component = convertComponent({
-		componentName: templateReplacementToken,
-	});
+	const component = convertComponent(variables);
 
 	await vscode.workspace.fs.writeFile(
-		vscode.Uri.joinPath(destinationFolder, fileName),
+		vscode.Uri.joinPath(targetDirectory, relativePath),
 		Buffer.from(component),
 	);
 };

@@ -27,7 +27,10 @@ const fetchTemplateVariables = async (templateFolder: Uri) => {
 		}
 	}
 
-	// Remove duplicates and return as array
+	if (variables.length === 0) {
+		return new Error('No variables found in template');
+	}
+
 	return Array.from(new Set(variables));
 };
 

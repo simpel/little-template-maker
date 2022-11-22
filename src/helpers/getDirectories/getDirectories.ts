@@ -9,17 +9,15 @@ const ignoredDirectories = new Set([
 	'.templates',
 ]);
 
-const getDirectories = async (
+const iterateDirectories = async (
 	path: vscode.Uri,
-	results: vscode.QuickPickItem[] = [],
+	results: vscode.Uri[] = [],
 ) => {
 	const filesInDirectory = await vscode.workspace.fs.readDirectory(path);
 
 	// If its the first iteration, add the initial path
 	if (results.length === 0) {
-		results.push({
-			label: path.fsPath,
-		});
+		results.push(path);
 	}
 
 	const promises = [];
@@ -31,10 +29,8 @@ const getDirectories = async (
 			file[1] === vscode.FileType.Directory &&
 			!ignoredDirectories.has(file[0])
 		) {
-			results.push({
-				label: fileUri.fsPath,
-			});
-			promises.push(getDirectories(fileUri, results));
+			results.push(fileUri);
+			promises.push(iterateDirectories(fileUri, results));
 		}
 	}
 
@@ -43,4 +39,30 @@ const getDirectories = async (
 	return results;
 };
 
-export default getDirectories;
+const pickDirectory = async (path: vscode.Uri) => {
+	const quickPickItems = await iterateDirectories(path).then((paths) => {
+		const quickPickItems = paths.map((directory) => {
+			return {
+				label: directory.fsPath,
+			};
+		});
+
+		return quickPickItems;
+	});
+
+	const pickedDirectory = await vscode.window
+		.showQuickPick(quickPickItems, {
+			title: 'Pick a directory',
+		})
+		.then((directory) => {
+			if (directory?.label) {
+				return vscode.Uri.parse(directory.label);
+			}
+
+			return new Error('Please pick a directory');
+		});
+
+	return pickedDirectory;
+};
+
+export default pickDirectory;
