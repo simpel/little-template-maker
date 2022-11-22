@@ -10,61 +10,37 @@ const ignoredDirectories = new Set([
 ]);
 
 const getDirectories = async (
-	workspace: vscode.Uri,
-): Promise<vscode.QuickPickItem[]> => {
-	const allDirectories: vscode.Uri[] = [];
+	path: vscode.Uri,
+	results: vscode.QuickPickItem[] = [],
+) => {
+	const filesInDirectory = await vscode.workspace.fs.readDirectory(path);
 
-	const readDirectory = async (
-		directory: vscode.Uri,
-	): Promise<vscode.Uri[]> => {
-		const directories = await vscode.workspace.fs
-			.readDirectory(directory)
-			.then((files) => {
-				const directories: vscode.Uri[] = [];
-
-				for (const file of files) {
-					const [fileName, fileType] = file;
-
-					if (
-						fileType === vscode.FileType.Directory &&
-						!ignoredDirectories.has(fileName)
-					) {
-						directories.push(vscode.Uri.joinPath(directory, fileName));
-					}
-				}
-
-				return directories;
-			});
-
-		const promises = [];
-
-		console.log('current directory', directory.path, directories.length);
-
-		for (const directory of directories) {
-			console.log('directory', directory.path);
-			promises.push(readDirectory(directory));
-		}
-
-		if (promises.length === 0) {
-			allDirectories.push(directory);
-			return allDirectories;
-		}
-
-		return Promise.all(promises).then((results) => {
-			console.log('results', results);
-			return results.flat();
+	// If its the first iteration, add the initial path
+	if (results.length === 0) {
+		results.push({
+			label: path.fsPath,
 		});
-	};
+	}
 
-	const returnedList = await readDirectory(workspace).then((directories) => {
-		return directories;
-	});
-	return returnedList.map((directory) => {
-		return {
-			label: directory.path,
-			detail: directory.fsPath,
-		};
-	});
+	const promises = [];
+
+	for (const file of filesInDirectory) {
+		const fileUri = vscode.Uri.joinPath(path, file[0]);
+
+		if (
+			file[1] === vscode.FileType.Directory &&
+			!ignoredDirectories.has(file[0])
+		) {
+			results.push({
+				label: fileUri.fsPath,
+			});
+			promises.push(getDirectories(fileUri, results));
+		}
+	}
+
+	await Promise.all(promises);
+
+	return results;
 };
 
 export default getDirectories;

@@ -29,6 +29,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			});
 
 			const allDirs = await getDirectories(workspace.uri);
+			console.log('extension.ts directory', allDirs);
 
 			const pickedDirectory = await vscode.window
 				.showQuickPick(allDirs, {
@@ -39,8 +40,6 @@ export async function activate(context: vscode.ExtensionContext) {
 				.then((item) => {
 					return item;
 				});
-
-			console.log('extension.ts directory', pickedDirectory);
 
 			const templateVariables = await fetchTemplateVariables(
 				pickedTemplate!,
