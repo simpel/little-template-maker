@@ -11,7 +11,7 @@ import applyTemplate from './helpers/applyTemplate/applyTemplate';
 // Your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
 	const ext = vscode.commands.registerCommand(
-		'simpel.applyTemplate',
+		'littleTemplateMaker.useTemplate',
 		async () => {
 			const workspace = vscode.workspace.workspaceFolders
 				? vscode.workspace.workspaceFolders[0]

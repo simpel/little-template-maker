@@ -23,17 +23,17 @@
     "color": "#8D0377",
     "theme": "light"
   },
-  "icon": "assets/icon.png",
+  "icon": "https://github.com/simpel/little-template-maker/blob/main/assets/icon.png",
   "activationEvents": [
-    "onCommand:simpel.applyTemplate"
+    "onCommand:littleTemplateMaker.useTemplate"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "simpel.applyTemplate",
-        "title": "Apply Template",
-        "category": "simpel"
+        "command": "littleTemplateMaker.useTemplate",
+        "title": "Use Template",
+        "category": "Little Template Maker"
       }
     ]
   },
