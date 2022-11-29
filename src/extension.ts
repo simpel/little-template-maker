@@ -98,7 +98,11 @@ export async function activate(context: vscode.ExtensionContext) {
 				pickedTemplate,
 				pickedDirectory,
 				assignedVariables,
-			);
+			).then(() => {
+				void vscode.window.showInformationMessage(
+					`Template applied successfully at ${pickedDirectory.fsPath}`,
+				);
+			});
 		},
 	);
 

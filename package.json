@@ -1,14 +1,29 @@
 {
-  "name": "simpel",
-  "displayName": "component templater",
-  "description": "",
+  "name": "little_template_maker",
+  "displayName": "Little Template Maker",
+  "description": "Add templates to your workspace and let the little template maker do the rest.",
+  "publisher": "se.joelsanden",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.73.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Formatters"
   ],
+  "keywords": [
+    "javascript",
+    "templates",
+    "template",
+    "template maker",
+    "handlebars",
+    "typescript"
+  ],
+  "galleryBanner": {
+    "color": "#8D0377",
+    "theme": "light"
+  },
+  "icon": "assets/icon.png",
   "activationEvents": [
     "onCommand:simpel.applyTemplate"
   ],
