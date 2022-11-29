@@ -12,24 +12,20 @@ const applyTemplate = async (
 	await vscode.workspace
 		.findFiles(`**/${templateName!}/**/*.handlebars`)
 		.then(async (files) => {
-			console.log('files', files);
-
 			const storeFilePromises = [];
 
 			for (const file of files) {
 				const relativePath = file.fsPath.replace(templateDirectory.fsPath, '');
-
-				console.log(
-					'target path for the file:',
-					vscode.Uri.joinPath(targetDirectory, relativePath).fsPath,
-				);
 
 				storeFilePromises.push(
 					storeFile(file, targetDirectory, relativePath, variables),
 				);
 			}
 
-			return Promise.all(storeFilePromises);
+			return Promise.all(storeFilePromises).then((response) => {
+				console.log('response', response);
+				return response;
+			});
 		});
 };
 

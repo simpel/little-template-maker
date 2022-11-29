@@ -1,7 +1,8 @@
+import { existsSync } from 'node:fs';
 import * as vscode from 'vscode';
 
 import assignVariables from './helpers/assignVariables/assignVariables';
-import fetchTemplateVariables from './helpers/getchTemplateVariables/fetchTemplateVariables';
+import fetchTemplateVariables from './helpers/fetchTemplateVariables/fetchTemplateVariables';
 import pickDirectory from './helpers/getDirectories/getDirectories';
 import pickTemplate from './helpers/pickTemplate/pickTemplate';
 import applyTemplate from './helpers/applyTemplate/applyTemplate';
@@ -20,6 +21,25 @@ export async function activate(context: vscode.ExtensionContext) {
 				return;
 			}
 
+			const templatesTargetPath = vscode.Uri.joinPath(
+				workspace.uri,
+				'.templates',
+			);
+
+			const templatesWorkspacePath = vscode.Uri.joinPath(
+				vscode.Uri.parse(context.extensionPath),
+				'.templates',
+			);
+			if (!existsSync(templatesTargetPath.fsPath)) {
+				await vscode.workspace.fs
+					.copy(templatesWorkspacePath, templatesTargetPath, {
+						overwrite: false,
+					})
+					.then((response) => {
+						console.log(response);
+					});
+			}
+
 			const pickedTemplate = await pickTemplate(workspace).then((response) => {
 				if (response instanceof Error) {
 					void vscode.window.showErrorMessage(response.message);
@@ -32,8 +52,6 @@ export async function activate(context: vscode.ExtensionContext) {
 			if (!pickedTemplate) {
 				return;
 			}
-
-			console.log('pickedURI', pickedTemplate);
 
 			const pickedDirectory = await pickDirectory(workspace.uri).then(
 				(response) => {
@@ -65,8 +83,6 @@ export async function activate(context: vscode.ExtensionContext) {
 			if (templateVariables) {
 				assignedVariables = await assignVariables(templateVariables).then(
 					(response) => {
-						console.log('assignVariables response', response);
-
 						if (response instanceof Error) {
 							void vscode.window.showErrorMessage(response.message);
 							return;
@@ -78,7 +94,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 
 			await applyTemplate(
-				workspace,
+				workspace.uri,
 				pickedTemplate,
 				pickedDirectory,
 				assignedVariables,
