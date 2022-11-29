@@ -1,12 +1,8 @@
 {
-  "name": "little_template_maker",
+  "name": "littletemplatemaker",
   "displayName": "Little Template Maker",
-  "description": "Add templates to your workspace and let the little template maker do the rest.",
-  "publisher": "se.joelsanden",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.73.0"
-  },
+  "description": "Add templates to your workspace and let the little template maker do the rest.",
   "categories": [
     "Other",
     "Formatters"
@@ -27,7 +23,17 @@
   "activationEvents": [
     "onCommand:littleTemplateMaker.useTemplate"
   ],
+  "license": "CC-BY-SA-4.0",
+  "publisher": "se.joelsanden",
   "main": "./out/extension.js",
+  "scripts": {
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "yarn run compile && yarn run lint",
+    "test": "node ./out/test/runTest.js",
+    "vscode:prepublish": "yarn run compile",
+    "watch": "tsc -watch -p ./"
+  },
   "contributes": {
     "commands": [
       {
@@ -36,14 +42,6 @@
         "category": "Little Template Maker"
       }
     ]
-  },
-  "scripts": {
-    "vscode:prepublish": "yarn run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "yarn run compile && yarn run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
     "@hediet/node-reload": "^0.7.3",
@@ -64,5 +62,8 @@
     "mocha": "^10.1.0",
     "typescript": "^4.8.4",
     "xo": "^0.52.4"
+  },
+  "engines": {
+    "vscode": "^1.73.0"
   }
 }
