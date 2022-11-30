@@ -1,7 +1,7 @@
 {
   "name": "littletemplatemaker",
   "displayName": "Little Template Maker",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Add templates to your workspace and let the little template maker do the rest.",
   "categories": [
     "Other",
