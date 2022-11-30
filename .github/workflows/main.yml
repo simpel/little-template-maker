@@ -4,35 +4,19 @@ on:
     - main
     
 jobs:
-  setup:
-    name: Create environment
+  release:
+    name: Release
     runs-on: ubuntu-latest
     environment: production
-    strategy:
-      matrix:
-        node-version: [10.x]
+  
     steps:
     - run: |
        git config --global user.email "me@joelsanden.se"
        git config --global user.name "Joel Sandén"
-  install:
-    runs-on: ubuntu-latest
-    environment: production
-    name: Installing packages
-    steps:
     - name: Checkout master
       uses: actions/checkout@master
     - name: Run yarn
       run: yarn
-    - name: Release new version
-      run: yarn release
-    - name: Commit new version
-      run: git push --follow-tags origin main
-  prerelease:
-    runs-on: ubuntu-latest
-    environment: production
-    name: Updating release related files
-    steps:
     - name: Release new version
       run: yarn release
     - name: Commit new version
