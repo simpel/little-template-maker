@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.8 (2022-11-30)
+
+
+### Features
+
+* **pipelines:** added vscode publish ([b771152](https://github.com/simpel/little-template-maker/commit/b771152000481851062b94d750b645239158b25e))
+
 ### 0.1.7 (2022-11-30)
 
 
