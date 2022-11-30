@@ -7,13 +7,6 @@
     "Other",
     "Formatters"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/simpel/little-template-maker"
-  },
-  "bugs": {
-    "url": "https://github.com/simpel/little-template-maker/issues"
-  },
   "keywords": [
     "javascript",
     "templates",
@@ -22,26 +15,25 @@
     "handlebars",
     "typescript"
   ],
-  "galleryBanner": {
-    "color": "#8D0377",
-    "theme": "dark"
+  "bugs": {
+    "url": "https://github.com/simpel/little-template-maker/issues"
   },
-  "icon": "assets/icon.png",
-  "activationEvents": [
-    "onCommand:littleTemplateMaker.useTemplate"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simpel/little-template-maker"
+  },
   "license": "CC-BY-SA-4.0",
   "publisher": "se-joelsanden",
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "scripts": {
+    "commit": "cz",
     "compile": "tsc -p ./",
+    "deploy": "vsce publish --yarn",
     "lint": "xo --fix",
-    "vscode:prepublish": "yarn run compile",
-    "watch": "tsc -watch -p ./",
     "prepare": "husky install",
     "release": "standard-version",
-    "commit": "cz",
-    "deploy": "vsce publish --yarn"
+    "vscode:prepublish": "yarn run compile",
+    "watch": "tsc -watch -p ./"
   },
   "contributes": {
     "commands": [
@@ -51,6 +43,14 @@
         "category": "Little Template Maker"
       }
     ]
+  },
+  "activationEvents": [
+    "onCommand:littleTemplateMaker.useTemplate"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
@@ -82,9 +82,9 @@
   "engines": {
     "vscode": "^1.73.0"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#8D0377",
+    "theme": "dark"
   }
 }
