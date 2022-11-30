@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import storeFile from '../storeFile/storeFile';
 
 const applyTemplate = async (
-	workspace: vscode.Uri,
 	templateDirectory: vscode.Uri,
 	targetDirectory: vscode.Uri,
 	variables?: Record<string, string>,
