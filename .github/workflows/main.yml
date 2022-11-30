@@ -20,3 +20,5 @@ jobs:
       run: yarn
     - name: Release new version
       run: yarn release
+    - name: Commit new version
+      run: git push --follow-tags origin main
