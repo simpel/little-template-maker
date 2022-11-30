@@ -1,7 +1,7 @@
 {
   "name": "littletemplatemaker",
   "displayName": "Little Template Maker",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Add templates to your workspace and let the little template maker do the rest.",
   "categories": [
     "Other",
@@ -38,7 +38,7 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
     "test": "node ./out/test/runTest.js",
-    "deploy": "vsce publish --yarn"
+    "deploy": "yarn run package && vsce publish --yarn"
   },
   "contributes": {
     "commands": [
