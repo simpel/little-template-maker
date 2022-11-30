@@ -1,12 +1,19 @@
 {
   "name": "littletemplatemaker",
   "displayName": "Little Template Maker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Add templates to your workspace and let the little template maker do the rest.",
   "categories": [
     "Other",
     "Formatters"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simpel/little-template-maker"
+  },
+  "bugs": {
+    "url": "https://github.com/simpel/little-template-maker/issues"
+  },
   "keywords": [
     "javascript",
     "templates",
@@ -17,14 +24,14 @@
   ],
   "galleryBanner": {
     "color": "#8D0377",
-    "theme": "light"
+    "theme": "dark"
   },
-  "icon": "https://github.com/simpel/little-template-maker/blob/main/assets/icon.png",
+  "icon": "assets/icon.png",
   "activationEvents": [
     "onCommand:littleTemplateMaker.useTemplate"
   ],
   "license": "CC-BY-SA-4.0",
-  "publisher": "se.joelsanden",
+  "publisher": "se-joelsanden",
   "main": "./out/extension.js",
   "scripts": {
     "compile": "tsc -p ./",
