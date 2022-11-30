@@ -11,6 +11,9 @@ jobs:
       matrix:
         node-version: [10.x]
     steps:
+    - run: |
+       git config --global user.email "me@joelsanden.se"
+       git config --global user.name "Joel Sandén"
     - name: Checkout master
       uses: actions/checkout@master
     - name: Run yarn
