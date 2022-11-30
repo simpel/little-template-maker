@@ -17,7 +17,11 @@ jobs:
     - name: Install Dependencies
       run: 
         yarn
+        
+    - name: List files
+      run: 
+        ls
           
-    - name: running release scripts
+    - name: Running release scripts
       run:
         yarn release
