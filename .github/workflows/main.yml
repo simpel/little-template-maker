@@ -10,5 +10,6 @@ jobs:
     steps:
     - name: running release scripts
       run: |
+        ls
         yarn
         yarn release
