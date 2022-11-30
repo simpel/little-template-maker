@@ -16,7 +16,6 @@ const storeFile = async (
 	).fsPath;
 	const fileTarget = unFilteredPath.slice(0, unFilteredPath.lastIndexOf('.'));
 
-	console.log('TEMPLATE', fileTarget);
 	const convertComponent = Handlebars.compile(template.toString());
 	const component = convertComponent(variables);
 

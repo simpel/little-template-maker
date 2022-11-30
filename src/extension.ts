@@ -31,13 +31,13 @@ export async function activate(context: vscode.ExtensionContext) {
 				'.templates',
 			);
 			if (!existsSync(templatesTargetPath.fsPath)) {
-				await vscode.workspace.fs
-					.copy(templatesWorkspacePath, templatesTargetPath, {
+				await vscode.workspace.fs.copy(
+					templatesWorkspacePath,
+					templatesTargetPath,
+					{
 						overwrite: false,
-					})
-					.then((response) => {
-						console.log(response);
-					});
+					},
+				);
 			}
 
 			const pickedTemplate = await pickTemplate(workspace).then((response) => {

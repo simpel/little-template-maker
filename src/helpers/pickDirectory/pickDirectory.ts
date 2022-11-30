@@ -16,8 +16,6 @@ const pickDirectory = async () => {
 			return quickPickItems;
 		});
 
-	console.log('allFiles', allFiles);
-
 	const pickedDirectory = await vscode.window
 		.showQuickPick([...allFiles], {
 			canPickMany: false,

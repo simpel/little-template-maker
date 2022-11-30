@@ -23,7 +23,6 @@ const applyTemplate = async (
 			}
 
 			return Promise.all(storeFilePromises).then((response) => {
-				console.log('response', response);
 				return response;
 			});
 		});
