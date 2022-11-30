@@ -39,7 +39,8 @@
     "pretest": "yarn run compile && yarn run lint",
     "test": "node ./out/test/runTest.js",
     "vscode:prepublish": "yarn run compile",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "prepare": "husky install"
   },
   "contributes": {
     "commands": [
@@ -68,7 +69,11 @@
     "handlebars": "^4.7.7",
     "mocha": "^10.1.0",
     "typescript": "^4.8.4",
-    "xo": "^0.52.4"
+    "xo": "^0.52.4",
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "husky": "^8.0.2",
+    "standard-version": "^9.5.0"
   },
   "engines": {
     "vscode": "^1.73.0"
