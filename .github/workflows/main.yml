@@ -11,27 +11,9 @@ jobs:
       matrix:
         node-version: [10.x]
     steps:
-    - uses: actions/checkout@master
-    - run: yarn
-      
-  releaseVersion:
-    name: update changelog.md
-    runs-on: ubuntu-18.04
-    steps:
-    
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v3.5.1
-      with:
-        node-version: '16.x'
-          
-    - name: Install Dependencies
-      run: 
-        yarn
-        
-    - name: List files
-      run: 
-        ls
-          
-    - name: Running release scripts
-      run:
-        yarn release
+    - name: Checkout master
+      uses: actions/checkout@master
+    - name: Run yarn
+      run: yarn
+    - name: Release new version
+      run: yarn release
