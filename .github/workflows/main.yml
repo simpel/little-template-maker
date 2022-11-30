@@ -4,6 +4,16 @@ on:
     - main
     
 jobs:
+  installDependencies:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+    - uses: actions/checkout@master
+    - run: yarn
+      
   releaseVersion:
     name: update changelog.md
     runs-on: ubuntu-18.04
