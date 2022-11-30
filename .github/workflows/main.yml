@@ -1,0 +1,14 @@
+on:
+  push:
+    branches:
+    - main
+    
+jobs:
+  releaseVersion:
+    name: update changelog.md
+    runs-on: ubuntu-18.04
+    steps:
+    - name: running release scripts
+      run: |
+        yarn
+        yarn release
