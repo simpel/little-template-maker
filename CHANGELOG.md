@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.2.0 (2022-11-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* **versions:** changes in build process
+
+### Features
+
+* **versions:** bumped version ([f336f2e](https://github.com/simpel/little-template-maker/commit/f336f2e1f46f68d6224421082e855452640c35a2))
+
 ### 0.1.8 (2022-11-30)
 
 
