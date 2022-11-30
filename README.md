@@ -18,4 +18,4 @@ When you run the command the first time it creates a `/.templates` folder in you
 
 
 ## Caveats
-Currently you can only place templates in existing folders. This kind of sucks and will be fixed, in the meantime just remeber to create your destination folder before you use Little Template Maker.
+Currently you can only place templates in existing folders. This kind of sucks and will be fixed, in the meantime just remember to create your destination folder before you use Little Template Maker.
