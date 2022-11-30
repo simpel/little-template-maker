@@ -26,26 +26,31 @@
   "publisher": "se-joelsanden",
   "main": "./dist/extension.js",
   "scripts": {
-    "commit": "cz",
-    "compile": "tsc -p ./",
-    "deploy": "vsce publish --yarn",
     "lint": "xo --fix",
     "prepare": "husky install",
     "release": "standard-version",
-    "vscode:prepublish": "yarn run compile",
-    "watch": "tsc -watch -p ./"
+    "commit": "cz",
+    "vscode:prepublish": "yarn run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+    "test": "node ./out/test/runTest.js",
+    "deploy": "vsce publish --yarn"
   },
   "contributes": {
     "commands": [
       {
-        "command": "littleTemplateMaker.useTemplate",
+        "command": "littletemplatemaker.useTemplate",
         "title": "Use Template",
         "category": "Little Template Maker"
       }
     ]
   },
   "activationEvents": [
-    "onCommand:littleTemplateMaker.useTemplate"
+    "onCommand:littletemplatemaker.useTemplate"
   ],
   "config": {
     "commitizen": {
@@ -75,8 +80,11 @@
     "husky": "^8.0.2",
     "mocha": "^10.1.0",
     "standard-version": "^9.5.0",
+    "ts-loader": "^9.4.1",
     "typescript": "^4.8.4",
     "vsce": "^2.14.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
     "xo": "^0.52.4"
   },
   "engines": {
