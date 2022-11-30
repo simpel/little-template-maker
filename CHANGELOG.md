@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.2.5 (2022-11-30)
+
+
+### Bug Fixes
+
+* **removed files:** removed incorrent template files ([82ebfd6](https://github.com/simpel/little-template-maker/commit/82ebfd6b68d55b29c67d5269dadf61f7d4ad6b48))
+
 ### 0.2.4 (2022-11-30)
 
 ### 0.2.3 (2022-11-30)
