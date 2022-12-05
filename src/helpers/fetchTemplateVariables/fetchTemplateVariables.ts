@@ -10,13 +10,22 @@ const fetchTemplateVariables = async (templateFolder: Uri) => {
 		'**/*.handlebars',
 	);
 
+	console.log('globPattern', globPattern);
+	
+
 	const files = await vscode.workspace.findFiles(globPattern);
+
+console.log('files', files);
+
 
 	const promises = files.map(async (file) => {
 		return vscode.workspace.fs.readFile(file);
 	});
 
 	const fileContents = await Promise.all(promises);
+
+	console.log("fileContents", fileContents);
+	
 
 	for (const content of fileContents) {
 		let result;

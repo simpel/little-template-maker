@@ -24,20 +24,16 @@
   },
   "license": "CC-BY-SA-4.0",
   "publisher": "se-joelsanden",
-  "main": "./dist/extension.js",
+  "main": "./out/extension.js",
   "scripts": {
     "lint": "xo --fix",
     "prepare": "husky install",
     "release": "standard-version",
     "commit": "cz",
     "vscode:prepublish": "yarn run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
-    "test": "node ./out/test/runTest.js",
+    "compile": "tsc src/extension.ts --outDir ./out",
+    "watch": "tsc --watch --outDir ./out",
+    "package": "tsc --outDir ./out",
     "deploy": "yarn run package && vsce publish --yarn"
   },
   "contributes": {
@@ -74,7 +70,7 @@
     "eslint": "^8.26.0",
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "glob": "^8.0.3",
     "handlebars": "^4.7.7",
     "husky": "^8.0.2",
@@ -85,7 +81,8 @@
     "vsce": "^2.14.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
-    "xo": "^0.52.4"
+    "xo": "^0.52.4",
+    "@types/fs-extra": "^9.0.13"
   },
   "engines": {
     "vscode": "^1.73.0"
