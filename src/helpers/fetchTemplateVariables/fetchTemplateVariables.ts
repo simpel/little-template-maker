@@ -5,15 +5,22 @@ const fetchTemplateVariables = async (templateFolder: Uri) => {
 	const variableRegEx = new RegExp(/{{{?([a-zA-Z]*)}?}}/, 'mg');
 	const variables: string[] = [];
 
+
+	console.log('variableRegEx', variableRegEx);
+
+
 	const globPattern = new vscode.RelativePattern(
-		templateFolder,
+		templateFolder.path,
 		'**/*.handlebars',
 	);
 
-	console.log('globPattern', globPattern);
+	console.log('globPattern', globPattern.baseUri.path, globPattern.baseUri.fsPath);
 	
 
-	const files = await vscode.workspace.findFiles(globPattern);
+	const files = await vscode.workspace.findFiles(globPattern).then((files) => {
+		console.log('thenfiles', files);
+		return files;
+	});
 
 console.log('files', files);
 

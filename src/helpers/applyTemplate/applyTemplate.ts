@@ -1,23 +1,31 @@
+import path = require('path');
 import * as vscode from 'vscode';
 import storeFile from '../storeFile/storeFile';
 
 const applyTemplate = async (
-	templateDirectory: vscode.Uri,
+	templateFolder: vscode.Uri,
 	targetDirectory: vscode.Uri,
 	variables?: Record<string, string>,
 ) => {
-	const templateName = templateDirectory.fsPath.split('/').pop();
+
+const globPattern = new vscode.RelativePattern(
+		templateFolder.path,
+		'**/*.handlebars',
+	);
 
 	await vscode.workspace
-		.findFiles(`**/${templateName!}/**/*.handlebars`)
+		.findFiles(globPattern)
 		.then(async (files) => {
 			const storeFilePromises = [];
 
 			for (const file of files) {
-				const relativePath = file.fsPath.replace(templateDirectory.fsPath, '');
+
+				
+
+
 
 				storeFilePromises.push(
-					storeFile(file, targetDirectory, relativePath, variables),
+					storeFile(file, targetDirectory, path.basename(file.fsPath), variables),
 				);
 			}
 

@@ -60,7 +60,7 @@ const useTemplate = async (context: vscode.ExtensionContext) => {
 		return;
 	}
 
-	console.log("PICKED TEMPLATE", pickedTemplate);
+	console.log("PICKED TEMPLATE", pickedTemplate.fsPath);
 	
 
 	let pickedDirectory = await pickDirectory(workspace.uri).then((response) => {
@@ -76,21 +76,8 @@ const useTemplate = async (context: vscode.ExtensionContext) => {
 		return;
 	}
 
-console.log("pickedDirectory", pickedDirectory);
+	console.log("pickedDirectory", pickedDirectory);
 
-
-	const folderName = await vscode.window
-		.showInputBox({
-			title: 'Add optional folder name',
-			prompt:
-				'If you want to create a new folder for your template, add a name here otherwise just hit Enter',
-		})
-		.then((response) => {
-			return response;
-		});
-	
-	console.log('folderName:', folderName);
-	
 
 	const templateVariables = await fetchTemplateVariables(pickedTemplate).then(
 		(response) => {
@@ -116,12 +103,9 @@ console.log("pickedDirectory", pickedDirectory);
 		);
 	}
 
-	if (folderName !== undefined) {
-		
-		pickedDirectory = vscode.Uri.joinPath(pickedDirectory, folderName);
-		await create(pickedDirectory);
-	}
+	console.log("assignedVariables", assignedVariables);
 
+	await create(pickedDirectory);
 	await applyTemplate(pickedTemplate, pickedDirectory, assignedVariables).then(
 		() => {
 			void vscode.window.showInformationMessage(
