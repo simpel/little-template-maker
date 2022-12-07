@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.2.6 (2022-12-07)
+
+
+### Bug Fixes
+
+* **windows:** added support for windows based paths ([cafe7b6](https://github.com/simpel/little-template-maker/commit/cafe7b68cbded2138cbb1d4134a8bcc2f74f8249))
+
 ### 0.2.5 (2022-11-30)
 
 
