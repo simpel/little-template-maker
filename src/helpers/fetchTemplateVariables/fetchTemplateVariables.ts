@@ -2,37 +2,21 @@ import type { Uri } from 'vscode';
 import * as vscode from 'vscode';
 
 const fetchTemplateVariables = async (templateFolder: Uri) => {
-	const variableRegEx = new RegExp(/{{{?([a-zA-Z]*)}?}}/, 'mg');
+	const variableRegEx = /{{{?([a-zA-Z]*)}?}}/gm;
 	const variables: string[] = [];
-
-
-	console.log('variableRegEx', variableRegEx);
-
 
 	const globPattern = new vscode.RelativePattern(
 		templateFolder.path,
 		'**/*.handlebars',
 	);
 
-	console.log('globPattern', globPattern.baseUri.path, globPattern.baseUri.fsPath);
-	
-
-	const files = await vscode.workspace.findFiles(globPattern).then((files) => {
-		console.log('thenfiles', files);
-		return files;
-	});
-
-console.log('files', files);
-
+	const files = await vscode.workspace.findFiles(globPattern);
 
 	const promises = files.map(async (file) => {
 		return vscode.workspace.fs.readFile(file);
 	});
 
 	const fileContents = await Promise.all(promises);
-
-	console.log("fileContents", fileContents);
-	
 
 	for (const content of fileContents) {
 		let result;

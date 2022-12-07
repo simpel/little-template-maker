@@ -57,23 +57,24 @@ const pickDirectory = async (path: vscode.Uri) => {
 		.then((directory) => {
 			if (directory?.label) {
 				return vscode.Uri.parse(directory.label);
-			}			
+			}
 		});
-	
+
 	if (pickedDirectory === undefined) {
-		vscode.window.showErrorMessage('Please pick a directory');
+		await vscode.window.showErrorMessage('Please pick a directory');
 		return;
 	}
-	
-	const additionalFolder = await vscode.window
-		.showInputBox({
-			title: 'Add optional folder name',
-			prompt:
-				'If you want to create a new folder for your template, add a name here otherwise just hit Enter',
-		});
-		
-	
-	if (additionalFolder) {return vscode.Uri.joinPath(pickedDirectory, additionalFolder);}
+
+	const additionalFolder = await vscode.window.showInputBox({
+		title: 'Add optional folder name',
+		prompt:
+			'If you want to create a new folder for your template, add a name here otherwise just hit Enter',
+	});
+
+	if (additionalFolder) {
+		return vscode.Uri.joinPath(pickedDirectory, additionalFolder);
+	}
+
 	return pickedDirectory;
 };
 

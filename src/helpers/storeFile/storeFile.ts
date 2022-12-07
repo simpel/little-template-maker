@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer';
 import * as vscode from 'vscode';
 import * as Handlebars from 'handlebars';
 import * as fs from 'fs-extra';
@@ -16,18 +15,13 @@ const storeFile = async (
 		relativePath,
 	).fsPath;
 
-	//remove .handlebars from file name
+	// Remove .handlebars from file name
 	const fileTarget = unFilteredPath.slice(0, unFilteredPath.lastIndexOf('.'));
 
 	const convertComponent = Handlebars.compile(template.toString());
 	const component = convertComponent(variables);
 
-
-	await fs.writeFile(
-		fileTarget,
-		component
-
-	);
+	await fs.writeFile(fileTarget, component);
 };
 
 export default storeFile;

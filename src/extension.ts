@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
-import useTemplate from './useTemplate/useTemplate';
+import useTemplate from './useTemplate/UseTemplate';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export function activate(context: vscode.ExtensionContext) {
 	const disposable = vscode.commands.registerCommand(
 		'littletemplatemaker.useTemplate',

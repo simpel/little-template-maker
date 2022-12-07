@@ -26,15 +26,15 @@
   "publisher": "se-joelsanden",
   "main": "./out/extension.js",
   "scripts": {
+    "commit": "cz",
+    "compile": "tsc src/extension.ts --outDir ./out",
+    "deploy": "yarn run package && vsce publish --yarn",
     "lint": "xo --fix",
+    "package": "tsc --outDir ./out",
     "prepare": "husky install",
     "release": "standard-version",
-    "commit": "cz",
     "vscode:prepublish": "yarn run package",
-    "compile": "tsc src/extension.ts --outDir ./out",
-    "watch": "tsc --watch --outDir ./out",
-    "package": "tsc --outDir ./out",
-    "deploy": "yarn run package && vsce publish --yarn"
+    "watch": "tsc --watch --outDir ./out"
   },
   "contributes": {
     "commands": [
@@ -58,11 +58,10 @@
     "@commitlint/config-conventional": "^17.3.0",
     "@hediet/node-reload": "^0.7.3",
     "@hediet/std": "^0.6.0",
+    "@types/fs-extra": "^9.0.13",
     "@types/glob": "^8.0.0",
     "@types/node": "^18.11.9",
     "@types/vscode": "^1.73.0",
-    "@typescript-eslint/eslint-plugin": "^5.42.0",
-    "@typescript-eslint/parser": "^5.42.0",
     "@vscode/test-electron": "^2.2.0",
     "change-case": "^4.1.2",
     "commitizen": "^4.2.5",
@@ -81,8 +80,7 @@
     "vsce": "^2.14.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
-    "xo": "^0.52.4",
-    "@types/fs-extra": "^9.0.13"
+    "xo": "latest"
   },
   "engines": {
     "vscode": "^1.73.0"

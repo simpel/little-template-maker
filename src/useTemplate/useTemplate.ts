@@ -1,16 +1,14 @@
+import * as fs from 'node:fs';
 import * as vscode from 'vscode';
-import * as fs from 'fs';
 
+import applyTemplate from '../helpers/applyTemplate/ApplyTemplate';
 
-import applyTemplate from '../helpers/applyTemplate/applyTemplate';
-
-import assignVariables from '../helpers/assignVariables/assignVariables';
-import fetchTemplateVariables from '../helpers/fetchTemplateVariables/fetchTemplateVariables';
-import pickDirectory from '../helpers/getDirectories/getDirectories';
-import pickTemplate from '../helpers/pickTemplate/pickTemplate';
-import copyAndCreate from '../helpers/copy/copy';
-import create from '../helpers/create/create';
-import copy from '../helpers/copy/copy';
+import assignVariables from '../helpers/assignVariables/AssignVariables';
+import fetchTemplateVariables from '../helpers/fetchTemplateVariables/FetchTemplateVariables';
+import pickDirectory from '../helpers/getDirectories/GetDirectories';
+import pickTemplate from '../helpers/pickTemplate/PickTemplate';
+import create from '../helpers/create/Create';
+import copy from '../helpers/copy/Copy';
 
 const useTemplate = async (context: vscode.ExtensionContext) => {
 	const workspace = vscode.workspace.workspaceFolders
@@ -28,23 +26,12 @@ const useTemplate = async (context: vscode.ExtensionContext) => {
 		'.templates',
 	);
 
-	const templatesExist = fs.existsSync(templatesTargetPath.fsPath);
+	const hasTemplates = fs.existsSync(templatesTargetPath.fsPath);
 
-	console.log('hasTemplates', templatesExist);
-	
-
-	if (!templatesExist) {
-
-			// create template directory
+	if (!hasTemplates) {
+		// Create template directory
 		await create(templatesTargetPath);
-
-		console.log("CREATED TEMPLATES DIR");
-		
-
 		await copy(templatesWorkspacePath, templatesTargetPath);
-
-		console.log("COPIED TEMPLATES DIR");
-		
 	}
 
 	const pickedTemplate = await pickTemplate(workspace).then((response) => {
@@ -60,34 +47,31 @@ const useTemplate = async (context: vscode.ExtensionContext) => {
 		return;
 	}
 
-	console.log("PICKED TEMPLATE", pickedTemplate.fsPath);
-	
+	const pickedDirectory = await pickDirectory(workspace.uri).then(
+		(response) => {
+			if (response instanceof Error) {
+				void vscode.window.showErrorMessage(response.message);
+				return;
+			}
 
-	let pickedDirectory = await pickDirectory(workspace.uri).then((response) => {
-		if (response instanceof Error) {
-			void vscode.window.showErrorMessage(response.message);
-			return;
-		}
-
-		return response;
-	});
+			return response;
+		},
+	);
 
 	if (!pickedDirectory) {
 		return;
 	}
 
-	console.log("pickedDirectory", pickedDirectory);
-
-
 	const templateVariables = await fetchTemplateVariables(pickedTemplate).then(
-		(response) => {
-			if (response instanceof Error) { return void vscode.window.showErrorMessage(response.message); }
+		async (response) => {
+			if (response instanceof Error) {
+				await vscode.window.showErrorMessage(response.message);
+				return [];
+			}
+
 			return response;
 		},
 	);
-
-	console.log("templateVariables", templateVariables);
-	
 
 	let assignedVariables;
 	if (templateVariables) {
@@ -103,13 +87,11 @@ const useTemplate = async (context: vscode.ExtensionContext) => {
 		);
 	}
 
-	console.log("assignedVariables", assignedVariables);
-
 	await create(pickedDirectory);
 	await applyTemplate(pickedTemplate, pickedDirectory, assignedVariables).then(
 		() => {
 			void vscode.window.showInformationMessage(
-				`Template applied successfully at ${pickedDirectory!.fsPath}`,
+				`Template applied successfully at ${pickedDirectory.fsPath}`,
 			);
 		},
 	);

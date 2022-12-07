@@ -1,14 +1,11 @@
 import * as vscode from 'vscode';
 
 const pickTemplate = async (workspace: vscode.WorkspaceFolder) => {
-	const templateDirs = await vscode.workspace.fs.readDirectory(
-		vscode.Uri.joinPath(workspace.uri, '.templates'),
-	).then((response) => {
-		return response;
-	});
-
-	console.log('templateDirs', templateDirs);
-	
+	const templateDirs = await vscode.workspace.fs
+		.readDirectory(vscode.Uri.joinPath(workspace.uri, '.templates'))
+		.then((response) => {
+			return response;
+		});
 
 	const templatesList: vscode.QuickPickItem[] = templateDirs.map(
 		(templateDir) => {
