@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.7.0 (2022-12-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **webpack:** changed build process
+
+### Features
+
+* **webpack:** reintroduced webpack ([4c28317](https://github.com/simpel/little-template-maker/commit/4c28317f9ab53389f40e538bf9656b74242ab49e))
+
 ## 0.6.0 (2022-12-07)
 
 
