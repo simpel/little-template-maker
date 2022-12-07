@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.2.7 (2022-12-07)
+
+
+### Bug Fixes
+
+* **templates:** changed mantineComponent template ([565b724](https://github.com/simpel/little-template-maker/commit/565b724ad709423b2dea035c5a1598d221ed8004))
+
 ### 0.2.6 (2022-12-07)
 
 
