@@ -27,14 +27,15 @@
   "main": "./out/extension.js",
   "scripts": {
     "commit": "cz",
-    "compile": "tsc src/extension.ts --outDir ./out",
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile && yarn run lint",
     "deploy": "yarn run package && vsce publish --yarn",
     "lint": "xo --fix",
     "package": "tsc --outDir ./out",
     "prepare": "husky install",
-    "release": "standard-version",
-    "vscode:prepublish": "yarn run package",
-    "watch": "tsc --watch --outDir ./out"
+    "release": "standard-version"
   },
   "contributes": {
     "commands": [
@@ -77,7 +78,7 @@
     "standard-version": "^9.5.0",
     "ts-loader": "^9.4.1",
     "typescript": "^4.8.4",
-    "vsce": "^2.14.0",
+    "vsce": "^2.15.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "xo": "latest"
