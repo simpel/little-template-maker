@@ -2,13 +2,12 @@ import * as fs from 'node:fs';
 import * as vscode from 'vscode';
 
 import applyTemplate from '../helpers/applyTemplate/ApplyTemplate';
-
-import assignVariables from '../helpers/assignVariables/AssignVariables';
 import fetchTemplateVariables from '../helpers/fetchTemplateVariables/FetchTemplateVariables';
 import pickDirectory from '../helpers/getDirectories/GetDirectories';
 import pickTemplate from '../helpers/pickTemplate/PickTemplate';
 import create from '../helpers/create/Create';
 import copy from '../helpers/copy/Copy';
+import assignVariables from '../helpers/assignVariables/AssignVariables';
 
 const useTemplate = async (context: vscode.ExtensionContext) => {
 	const workspace = vscode.workspace.workspaceFolders
