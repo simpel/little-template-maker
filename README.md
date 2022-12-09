@@ -23,3 +23,6 @@ When you run the command the first time it creates a `/.templates` folder in you
 1. Within a template you can use folders, files, all the good stuff.
 1. The Little Template Maker will strip all `.handlebars` files of their extension. If you want your generated file to be named `Component.tsx` the template filename should be `Component.tsx.handlebars`.
 
+## More good stuff
+
+🚀🚀🚀 Check out my other components: https://marketplace.visualstudio.com/publishers/se-joelsanden
